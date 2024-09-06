@@ -1,0 +1,60 @@
+#lang scheme
+(define revise
+  (lambda(p1 p2)
+    (let* ((pt1 (car p1)) ;punto 1
+           (pt2 (cdr p1)) ; ounto 2
+           (pt3 (car p2)) ;punto 3
+           (pt4 (cdr p2)) ;punto 4
+           (x1p1 (car pt1)) ;x1 punto 1
+           (x2p1 (car (car pt2))) ; x2 punto 1
+           (x1p2 (car pt3)) ;x1 punto 2
+           (x2p2 (car (car pt4))) ; x2 punto 2
+           (y1p1a (cdr pt1))
+           (y1p1 (car y1p1a)) ; y1 punto 1
+           (y2p1a (car pt2))
+           (y2p1b (cdr y2p1a))
+           (y2p1 (car y2p1b)); y2 punto 1
+           (y1p2a (cdr pt3))
+           (y1p2 (car y1p2a));y1 punto 2
+           (y2p2a (car pt4))
+           (y2p2b (cdr y2p2a))
+           (y2p2 (car y2p2b)); y2 punto 2
+           (m1 (pendiente y2p1 y1p1 x2p1 x1p1))
+           (m2 (pendiente y2p2 y1p2 x2p2 x1p2)))
+      
+      
+      (paralelos m1 m2 y2p1 y1p1 x2p1 x1p1 y2p2 y1p2 x2p2 x1p2))))
+
+
+(define pendiente
+  (lambda(y2 y1 x2 x1)
+    (/(- y2 y1) (- x2 x1)
+    )))
+(define paralelos
+  (lambda (m1 m2 y2p1 y1p1 x2p1 x1p1 y2p2 y1p2 x2p2 x1p2)
+    (cond
+      ((= m1 m2) "no hay intersección, las pendientes son paralelas")
+      (else (interseccion m1 m2 y2p1 y1p1 x2p1 x1p1 y2p2 y1p2 x2p2 x1p2)))))
+(define interseccion
+  (lambda (m1 m2 y2p1 y1p1 x2p1 x1p1 y2p2 y1p2 x2p2 x1p2)
+    (let* ((m1-inverse (/ 1 m1))
+           (x1mid (/ (+ x1p1 x2p1) 2))
+           (y1mid (/ (+ y1p1 y2p1) 2))
+           (m2-inverse (/ 1 m2))
+           (x2mid (/ (+ x1p2 x2p2) 2))
+           (y2mid (/ (+ y1p2 y2p2) 2))
+           (b1 (- y1mid (* m1-inverse x1mid)))
+           (b2 (- y2mid(* m2-inverse x2mid)))
+           (x (/(- b2 b1) (- m1 m2)))
+           (y (+(* m1(/ (- b2 b1) (- m1 m2))) b1)))
+          (list x y))))
+
+
+            
+
+
+
+
+
+
+
